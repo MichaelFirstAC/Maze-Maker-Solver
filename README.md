@@ -35,7 +35,7 @@ This class implements three maze-solving algorithms:
 - DFS (Depth-First Search): Uses a stack to explore nodes.
 - BFS (Breadth-First Search): Uses a queue to explore nodes and keeps track of the previous nodes to reconstruct
 the shortest path.
-- A Search:* Uses a heuristic to prioritize nodes that are closer to the target.
+- A* Search: Uses a heuristic to prioritize nodes that are closer to the target.
 
 ## Node.java
 This class represents a node in the maze with properties like position, color, and neighbors. It includes methods to render the node, handle clicks, and determine its type (wall, start, end, path).
