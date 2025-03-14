@@ -57,10 +57,7 @@ This class sets up the GUI using Swing components and handles user interactions.
 
 The maze files use a simple format where:
 
-1 represents a wall.
-
-0 represents a path.
-
-2 represents the start node.
-
-3 represents the end node.
+- 1 represents a wall.
+- 0 represents a path.
+- 2 represents the start node.
+- 3 represents the end node.
