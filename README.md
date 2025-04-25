@@ -1,6 +1,6 @@
 # Overview
 
-Maze-solver-java is application with an interactive GUI that lets you design your own mazes. You can choose from the available algorithms to search and find the shortest path from your desired start-to-end point.
+Maze-solver-java is an application with an interactive GUI that lets you design your mazes. You can choose from the available algorithms to search and find the shortest path from your desired start-to-end point.
 
 * `Left Click -> Wall Node`
 * `Rigth Click -> End Node`
