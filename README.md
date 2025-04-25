@@ -18,6 +18,10 @@ Source Files (src folder):
 - Algorithm.java: Contains the implementation of various maze-solving algorithms (DFS, BFS, A*).
 - Main.java: The main class that sets up the GUI, handles user interactions, and integrates the algorithms.
 - Node.java: Represents a node in the maze, with properties and methods to manage its state and neighbors.
+- Algorithm2.java: Contains the implementation of the same maze-solving algorithms with different Data structures.
+
+## To use Algorithm2 for comparisons, swap Algorithm.java and Algorithm2.java in the src folder and rename them.
+## Make sure the algorithm you wish to use is titled 'Algorithm.java' and placed inside the src folder. 
 
 ## Compiled Class Files (bin folder):
 
