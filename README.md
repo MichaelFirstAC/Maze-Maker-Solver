@@ -29,7 +29,7 @@ Contains the compiled .class files for the source files.
 
 ## Sample Maze Files (sample folder):
 
-sample1.maze, sample2.maze, sample3.maze: Text files representing different maze configurations.
+Text files representing different maze configurations.
 
 # Key Components
 
