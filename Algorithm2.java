@@ -1,7 +1,7 @@
 /** This file is the comparison algorithm if we were to use different data structures
  * It uses recursion for DFS, Arraydeque for BFS, and a Linkedlist for A*.
+ * To use this algorithm, please view the instructions on the 'readme.md'.
  */
-
 
 // Required imports for algorithm program
 import java.awt.Color;
@@ -9,7 +9,6 @@ import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.Stack;
 
 /**
  * Class containing implementations of pathfinding algorithms: DFS, BFS, and A*.
@@ -32,64 +31,55 @@ public class Algorithm2 {
      * Performs Depth-first search (DFS) from the starting node
      * Nodes are visited in a stack-based manner (LIFO)
      * Visualization: Orange = visited, Blue = Explored, Magenta = Target found
-     */   
+     */  
+    private boolean foundTarget = false; // Flag to stop recursion after target is found
+
     public void dfs(Node start, Node end, int graphWidth, int graphHeight) {
-        Stack<Node> nodes = new Stack<>();
-        Node[][] prev = new Node[graphWidth][graphHeight]; // Matrix to store previous nodes
-        nodes.push(start);
+        foundTarget = false;
+        Node[][] prev = new Node[graphWidth][graphHeight];
+        boolean[][] visited = new boolean[graphWidth][graphHeight];
+
+        start.setColor(Color.GREEN); // Visualize starting node
         long startTime = System.currentTimeMillis();
 
-        while (!nodes.empty()) {
-            Node curNode = nodes.pop();
-            
-            // Check if the current node is the end node
-            if (curNode.isEnd()) {
-                // Mark the end node in magenta
-                curNode.setColor(Color.MAGENTA);
-                long endTime = System.currentTimeMillis();
-                System.out.println("DFS Runtime: " + (endTime - startTime) + " ms");
-                break; // Exit the loop when the end node is found
-            }
+        dfsRecursive(start, end, startTime, prev, visited);
 
-            // Visualize visiting the node
-            curNode.setColor(Color.ORANGE); // Mark as visited
-            try {
-                Thread.sleep(searchtime);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            curNode.setColor(Color.BLUE); // Mark as explored
-            
-            // Push all neighbors onto the stack
-            for (Node adjacent : curNode.getNeighbours()) {
-                if (prev[adjacent.getX()][adjacent.getY()] == null) { // Check if not visited
-                    nodes.push(adjacent);
-                    prev[adjacent.getX()][adjacent.getY()] = curNode; // Set previous node
-                }
-            }
-        }
-
-        // Retrace the path from the end node to the start node
-        Node pathConstructor = end; // Start from the end node
-        while (pathConstructor != null) {
-            if (pathConstructor.isEnd()) {
-                // The end node is already magenta, no need to change it again
-            } else {
-                pathConstructor.setColor(Color.ORANGE);
-                end.setColor(Color.MAGENTA);
-                // Highlight the path node
-            }
-            
-            try {
-                Thread.sleep(searchtime);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            
-            // Move to the previous node
-            pathConstructor = prev[pathConstructor.getX()][pathConstructor.getY()]; 
+        if (foundTarget) {
+            shortpath(prev, end); // Highlight the path after finding target
         }
     }
+
+    public void dfsRecursive(Node node, Node end, long startTime, Node[][] prev, boolean[][] visited) {
+        if (node == null || visited[node.getX()][node.getY()] || foundTarget) return;
+
+        visited[node.getX()][node.getY()] = true;
+
+        if (node.isEnd()) {
+            node.setColor(Color.MAGENTA); // Target found
+            long endTime = System.currentTimeMillis();
+            System.out.println("DFS Runtime: " + (endTime - startTime) + " ms");
+            foundTarget = true;
+            return;
+        }
+
+        node.setColor(Color.ORANGE); // Mark as visited
+        try {
+            Thread.sleep(searchtime);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        node.setColor(Color.BLUE); // Mark as explored
+
+        List<Node> neighbors = node.getNeighbours();
+        for (int i = neighbors.size() - 1; i >= 0; i--) { // Reverse for stack-like DFS
+            Node neighbor = neighbors.get(i);
+            if (!visited[neighbor.getX()][neighbor.getY()]) {
+                prev[neighbor.getX()][neighbor.getY()] = node;
+                dfsRecursive(neighbor, end, startTime, prev, visited);
+            }
+        }
+    }
+
 
     /**
      * Performs Breadth-First Search (BFS) from start node to end node.
