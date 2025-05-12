@@ -27,65 +27,53 @@ public class Algorithm {
      * Performs Depth-first search (DFS) from the starting node
      * Nodes are visited in a stack-based manner (LIFO)
      * Visualization: Orange = visited, Blue = Explored, Magenta = Target found
-     */   
+     */
     public void dfs(Node start, Node end, int graphWidth, int graphHeight) {
         Stack<Node> nodes = new Stack<>();
-        Node[][] prev = new Node[graphWidth][graphHeight]; // Matrix to store previous nodes
+        Node[][] prev = new Node[graphWidth][graphHeight];
+        boolean[][] visited = new boolean[graphWidth][graphHeight]; // Track visited nodes
+
         nodes.push(start);
         long startTime = System.currentTimeMillis();
 
         while (!nodes.empty()) {
             Node curNode = nodes.pop();
-            
-            // Check if the current node is the end node
-            if (curNode.isEnd()) {
-                // Mark the end node in magenta
+
+            int x = curNode.getX();
+            int y = curNode.getY();
+
+            if (visited[x][y]) continue;
+            visited[x][y] = true;
+
+            if (!curNode.isEnd()) {
+                curNode.setColor(Color.ORANGE);
+                try {
+                    Thread.sleep(searchtime);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                curNode.setColor(Color.BLUE);
+
+                for (Node adjacent : curNode.getNeighbours()) {
+                    int ax = adjacent.getX();
+                    int ay = adjacent.getY();
+                    if (!visited[ax][ay]) {
+                        nodes.push(adjacent);
+                        prev[ax][ay] = curNode;
+                    }
+                }
+            } else {
                 curNode.setColor(Color.MAGENTA);
                 long endTime = System.currentTimeMillis();
                 System.out.println("DFS Runtime: " + (endTime - startTime) + " ms");
-                break; // Exit the loop when the end node is found
-            }
-
-            // Visualize visiting the node
-            curNode.setColor(Color.ORANGE); // Mark as visited
-            try {
-                Thread.sleep(searchtime);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            curNode.setColor(Color.BLUE); // Mark as explored
-            
-            // Push all neighbors onto the stack
-            for (Node adjacent : curNode.getNeighbours()) {
-                if (prev[adjacent.getX()][adjacent.getY()] == null) { // Check if not visited
-                    nodes.push(adjacent);
-                    prev[adjacent.getX()][adjacent.getY()] = curNode; // Set previous node
-                }
+                break;
             }
         }
 
-        // Retrace the path from the end node to the start node
-        Node pathConstructor = end; // Start from the end node
-        while (pathConstructor != null) {
-            if (pathConstructor.isEnd()) {
-                // The end node is already magenta, no need to change it again
-            } else {
-                pathConstructor.setColor(Color.ORANGE);
-                end.setColor(Color.MAGENTA);
-                // Highlight the path node
-            }
-            
-            try {
-                Thread.sleep(searchtime);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            
-            // Move to the previous node
-            pathConstructor = prev[pathConstructor.getX()][pathConstructor.getY()]; 
-        }
+        shortpath(prev, end); // Highlight shortest path
     }
 
+    
     /**
      * Performs Breadth-First Search (BFS) from start node to end node.
      * Uses a queue to explore the nearest neighbors first (FIFO).
