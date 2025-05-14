@@ -60,6 +60,19 @@ This class sets up the GUI using Swing components and handles user interactions.
 - Save and load mazes from files.
 - Execute the selected algorithm and display the runtime.
 
+## Bin Folder
+This folder is an output directory where the compiled .class files are stored.
+
+## .classpath / .project
+These are configuration files for an Eclipse-based Java project. 
+Here's what they are:
+
+.classpath:
+This file defines the classpath for the project. It specifies the source folders, output folders, and any libraries or dependencies required for the project.
+
+.project:
+This file contains metadata about the project, such as its name, build specifications, and natures. 
+
 ### Usage
 
 - Running the Application: The main method in Main.java sets up the JFrame and starts the application.
