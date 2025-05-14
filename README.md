@@ -69,10 +69,10 @@ This folder is an output directory where the compiled .class files are stored.
 These are configuration files for an Eclipse-based Java project. 
 Here's what they are:
 
-.classpath:
+- .classpath:
 This file defines the classpath for the project. It specifies the source folders, output folders, and any libraries or dependencies required for the project.
 
-.project:
+- .project:
 This file contains metadata about the project, such as its name, build specifications, and natures. 
 
 ### Usage
