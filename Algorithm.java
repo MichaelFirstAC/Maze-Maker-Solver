@@ -1,20 +1,16 @@
-/** This file is the comparison algorithm if we were to use different data structures
- * It uses recursion for DFS, Arraydeque for BFS, and a Linkedlist for A*.
- * To use this algorithm, please view the instructions on the 'readme.md'.
- */
-
 // Required imports for algorithm program
 import java.awt.Color;
-import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Stack;
 
 /**
  * Class containing implementations of pathfinding algorithms: DFS, BFS, and A*.
  * It also visualizes search progress by changing node colors with delay.
  */
-public class Algorithm2 {
+public class Algorithm {
 
 	// Delay time in milliseconds used to visualize search progress
     private int searchtime = 100;
@@ -31,84 +27,78 @@ public class Algorithm2 {
      * Performs Depth-first search (DFS) from the starting node
      * Nodes are visited in a stack-based manner (LIFO)
      * Visualization: Orange = visited, Blue = Explored, Magenta = Target found
-     * Uses recursion to explore nodes
-     */  
-    private boolean foundTarget = false; // Flag to stop recursion after target is found
-
+     * Uses stack to explore nodes
+     */
     public void dfs(Node start, Node end, int graphWidth, int graphHeight) {
-        foundTarget = false;
+        Stack<Node> nodes = new Stack<>();
         Node[][] prev = new Node[graphWidth][graphHeight];
-        boolean[][] visited = new boolean[graphWidth][graphHeight];
+        boolean[][] visited = new boolean[graphWidth][graphHeight]; // Track visited nodes
 
-        start.setColor(Color.GREEN); // Visualize starting node
+        nodes.push(start);
         long startTime = System.currentTimeMillis();
 
-        dfsRecursive(start, end, startTime, prev, visited); 
+        while (!nodes.empty()) {
+            Node curNode = nodes.pop();
 
-        if (foundTarget) {
-            shortpath(prev, end); // Highlight the path after finding target
-        }
-    }
+            int x = curNode.getX();
+            int y = curNode.getY();
 
-    /**
-     * Recursive helper method for DFS.
-     * It explores nodes in a depth-first manner and visualizes the search process.
-     */
-    public void dfsRecursive(Node node, Node end, long startTime, Node[][] prev, boolean[][] visited) {
-        if (node == null || visited[node.getX()][node.getY()] || foundTarget) return;
+            if (visited[x][y]) continue;
+            visited[x][y] = true;
 
-        visited[node.getX()][node.getY()] = true;
+            if (!curNode.isEnd()) {
+                curNode.setColor(Color.ORANGE);
+                try {
+                    Thread.sleep(searchtime);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                curNode.setColor(Color.BLUE);
 
-        if (node.isEnd()) {
-            node.setColor(Color.MAGENTA); // Target found
-            long endTime = System.currentTimeMillis();
-            System.out.println("DFS Runtime: " + (endTime - startTime) + " ms");
-            foundTarget = true;
-            return;
-        }
-
-        node.setColor(Color.ORANGE); // Mark as visited
-        try {
-            Thread.sleep(searchtime);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        node.setColor(Color.BLUE); // Mark as explored
-
-        List<Node> neighbors = node.getNeighbours();
-        for (int i = neighbors.size() - 1; i >= 0; i--) { // Reverse for stack-like DFS
-            Node neighbor = neighbors.get(i);
-            if (!visited[neighbor.getX()][neighbor.getY()]) {
-                prev[neighbor.getX()][neighbor.getY()] = node;
-                dfsRecursive(neighbor, end, startTime, prev, visited);
+                for (Node adjacent : curNode.getNeighbours()) {
+                    int ax = adjacent.getX();
+                    int ay = adjacent.getY();
+                    if (!visited[ax][ay]) {
+                        nodes.push(adjacent);
+                        prev[ax][ay] = curNode;
+                    }
+                }
+            } else {
+                curNode.setColor(Color.MAGENTA);
+                long endTime = System.currentTimeMillis();
+                System.out.println("DFS Runtime: " + (endTime - startTime) + " ms");
+                break;
             }
         }
+
+        shortpath(prev, end); // Highlight shortest path
     }
 
 
     /**
      * Performs Breadth-First Search (BFS) from start node to end node.
-     * Uses a queue to explore the nearest neighbors first (FIFO).
+     * Nodes are visited in a queue-based manner (FIFO).
      * Visualization: Orange = visited, Blue = Explored, Magenta = Target found
-     * Uses ArrayDeque for queue implementation
+     * Uses queue to explore nodes
      */
     public void bfs(Node start, Node end, int graphWidth, int graphHeight) {
-        Queue<Node> queue = new ArrayDeque<>();
+        Queue<Node> queue = new LinkedList<>();
         Node[][] prev = new Node[graphWidth][graphHeight];
         long startTime = System.currentTimeMillis(); // Start timing the search
-    
+
         queue.add(start);
         while (!queue.isEmpty()) {
             Node curNode = queue.poll();
-    
+            
             if (curNode.isEnd()) {
                 curNode.setColor(Color.MAGENTA);
                 long endTime = System.currentTimeMillis();
                 System.out.println("BFS Runtime: " + (endTime - startTime) + " ms");
                 break;
             }
-    
+
             if (!curNode.isSearched()) {
+            	// Visualize visiting the node
                 curNode.setColor(Color.ORANGE);
                 try {
                     Thread.sleep(searchtime);
@@ -116,14 +106,14 @@ public class Algorithm2 {
                     e.printStackTrace();
                 }
                 curNode.setColor(Color.BLUE); // Mark as explored
-    
+                
                 for (Node adjacent : curNode.getNeighbours()) {
                     queue.add(adjacent);
                     prev[adjacent.getX()][adjacent.getY()] = curNode; // Store path
                 }
             }
         }
-    
+
         // Highlight the shortest path
         shortpath(prev, end);
     }
@@ -132,10 +122,10 @@ public class Algorithm2 {
      * Performs A* (A star) pathfinding algorithm from start to end node.
      * Uses a priority queue to explore nodes based on heuristic cost.
      * Visualization: Orange = visited, Blue = Explored, Magenta = Target found
-     * Uses LinkedList for open list implementation
+     * Uses ArrayList for open list implementation
      */
     public void Astar(Node start, Node targetNode, int graphWidth, int graphHeight) {
-        List<Node> openList = new LinkedList<>();
+        List<Node> openList = new ArrayList<>();
         Node[][] prev = new Node[graphWidth][graphHeight];
         long startTime = System.currentTimeMillis(); // Start timing
         
