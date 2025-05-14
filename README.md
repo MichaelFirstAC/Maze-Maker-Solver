@@ -1,5 +1,7 @@
 # Overview
 
+### NOTICE! This is done in Eclipse IDE
+
 Maze-solver-java is an application with an interactive GUI that lets you design your mazes. You can choose from the available algorithms to search and find the shortest path from your desired start-to-end point.
 
 * `Left Click -> Wall Node`
@@ -86,5 +88,3 @@ The maze files use a simple format where:
 - 0 represents a path.
 - 2 represents the start node.
 - 3 represents the end node.
-
-### NOTICE! This is done in Eclipse IDE
