@@ -20,7 +20,7 @@ Source Files (src folder):
 - Node.java: Represents a node in the maze, with properties and methods to manage its state and neighbors.
 - Algorithm2.java: Contains the implementation of the same maze-solving algorithms with different Data structures.
 
-To use Algorithm2 for comparisons, swap Algorithm.java and Algorithm2.java in the src folder and rename them.
+To use Algorithm2 for comparisons, swap Algorithm.java and Algorithm2.java in the src folder and rename the file and the public class.
 Make sure the algorithm you wish to use is titled 'Algorithm.java' and placed inside the src folder. 
 
 ## Compiled Class Files (bin folder):
@@ -39,7 +39,15 @@ This class implements three maze-solving algorithms:
 - DFS (Depth-First Search): Uses a stack to explore nodes.
 - BFS (Breadth-First Search): Uses a queue to explore nodes and keeps track of the previous nodes to reconstruct
 the shortest path.
-- A* Star Search: Uses a heuristic to prioritize nodes that are closer to the target.
+- A* Star Search: Uses an open Array List implementation for a heuristic to prioritize nodes closer to the target.
+
+## Algorithm2.java
+This class implements three OTHER maze-solving algorithms:
+
+- DFS (Depth-First Search): Uses recursion to explore nodes.
+- BFS (Breadth-First Search): Uses an Array dequeue to explore nodes and keeps track of the previous nodes to reconstruct
+the shortest path.
+- A* Star Search: Uses an open linked List implementation for a heuristic to prioritize nodes closer to the target.
 
 ## Node.java
 This class represents a node in the maze with properties like position, color, and neighbors. It includes methods to render the node, handle clicks, and determine its type (wall, start, end, path).
@@ -65,3 +73,5 @@ The maze files use a simple format where:
 - 0 represents a path.
 - 2 represents the start node.
 - 3 represents the end node.
+
+### NOTICE! This is done in Eclipse IDE
