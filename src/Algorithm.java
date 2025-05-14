@@ -27,6 +27,7 @@ public class Algorithm {
      * Performs Depth-first search (DFS) from the starting node
      * Nodes are visited in a stack-based manner (LIFO)
      * Visualization: Orange = visited, Blue = Explored, Magenta = Target found
+     * Uses stack to explore nodes
      */
     public void dfs(Node start, Node end, int graphWidth, int graphHeight) {
         Stack<Node> nodes = new Stack<>();
@@ -73,11 +74,12 @@ public class Algorithm {
         shortpath(prev, end); // Highlight shortest path
     }
 
-    
+
     /**
      * Performs Breadth-First Search (BFS) from start node to end node.
-     * Uses a queue to explore the nearest neighbors first (FIFO).
-     * Also stores path using a prev[][] matrix.
+     * Nodes are visited in a queue-based manner (FIFO).
+     * Visualization: Orange = visited, Blue = Explored, Magenta = Target found
+     * Uses queue to explore nodes
      */
     public void bfs(Node start, Node end, int graphWidth, int graphHeight) {
         Queue<Node> queue = new LinkedList<>();
@@ -118,8 +120,9 @@ public class Algorithm {
 
     /**
      * Performs A* (A star) pathfinding algorithm from start to end node.
-     * Combines actual cost (g) and heuristic estimate (h) to choose optimal path.
-     * Uses a custom open list and evaluates best option at each step.
+     * Uses a priority queue to explore nodes based on heuristic cost.
+     * Visualization: Orange = visited, Blue = Explored, Magenta = Target found
+     * Uses ArrayList for open list implementation
      */
     public void Astar(Node start, Node targetNode, int graphWidth, int graphHeight) {
         List<Node> openList = new ArrayList<>();
