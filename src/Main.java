@@ -36,12 +36,12 @@ public class Main extends Canvas implements Runnable, MouseListener {
 	private static Algorithm algorithm;	// Object to perform pathfinding algorithms
 
 	// Dimensions for the application window
-	private final static int WIDTH = 1690;
-	private final static int HEIGHT = 980;
+	private final static int WIDTH = 1450;
+	private final static int HEIGHT = 800;
 	
-	// Dimensions for the maze grid (48x27 nodes)
-	private final static int NODES_WIDTH = 47;
-	private final static int NODES_HEIGHT = 25;
+	// Dimensions for the maze grid (40x20 nodes)
+	private final static int NODES_WIDTH = 40;
+	private final static int NODES_HEIGHT = 20;
 	
 	// Main entry point for the program
 	public static void main(String[] args) {
